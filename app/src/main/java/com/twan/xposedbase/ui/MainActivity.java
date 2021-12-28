@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.twan.xposedbase.R;
 import com.twan.xposedbase.util.LogUtil;
-import com.twan.xposedbase.util.ShellUtil;
+import com.twan.xposedbase.util.ShellUtils;
 import com.twan.xposedbase.util.XposedUtil;
 
 import static android.widget.Toast.LENGTH_LONG;
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    boolean isRoot = ShellUtil.checkRootPermission();
+                    boolean isRoot = ShellUtils.checkRootPermission();
                     if (isRoot) {
                         Toast.makeText(MainActivity.this, "已获取到root权限", Toast.LENGTH_SHORT).show();
                     }else{

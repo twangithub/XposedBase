@@ -1,14 +1,9 @@
 package com.twan.xposedbase.hook;
 
-import android.content.ComponentName;
+import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
-import android.util.Log;
 
-import com.orhanobut.logger.Logger;
 import com.twan.xposedbase.BuildConfig;
-import com.twan.xposedbase.ui.MainActivity;
 import com.twan.xposedbase.util.LogUtil;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -58,6 +53,29 @@ public class HookMain implements IXposedHookLoadPackage {
             LogUtil.e(" hook application 失败");
         }
 
+        // hook微信
+        if (llpm.packageName.equals("com.tencent.mm") ||
+                "/data/user/0/com.tencent.mm".equals(llpm.appInfo.dataDir) ||
+                "/data/data/com.tencent.mm".equals(llpm.appInfo.dataDir)) {
+            PreventXposeCheck.hook((llpm));
+            LogUtil.e("已进入微信进程");
+
+            // 解决多dex出现ClassNotFound的问题
+            XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    // todo your own business
+
+
+
+
+                }
+            });
+
+
+
+        }
 
     }
 }
